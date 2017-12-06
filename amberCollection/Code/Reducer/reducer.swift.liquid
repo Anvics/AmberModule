@@ -1,0 +1,41 @@
+//
+//  {{ prefix }}{{ module_info.name }}{{ module_info.file_name }}
+//  {{ module_info.project_name }}
+//
+//  Created by {{ developer.name }} on {{ date }}.
+//  Copyright © {{ year }} {{ developer.company }}. All rights reserved.
+//
+
+import Foundation
+import Amber
+
+class {{ module_info.name }}Reducer: AmberReducer{
+    
+    func initialize(state: {{ module_info.name }}State, performAction: @escaping ({{ module_info.name }}Action) -> Void, performOutputAction: @escaping ({{ module_info.name }}OutputAction) -> Void){
+        performAction(.reload)
+    }
+    
+    func reduce(action: {{ module_info.name }}Action, state: {{ module_info.name }}State, performTransition: @escaping ({{ module_info.name }}Transition) -> Void, performAction: @escaping ({{ module_info.name }}Action) -> Void, performOutputAction: @escaping ({{ module_info.name }}OutputAction) -> Void) -> {{ module_info.name }}State{
+        var newState = state
+        switch action {
+        case .reload:
+            newState.isLoading = true
+            performAction(.loadComplete({{ module_info.name }}Interactor()))
+        case .loadComplete(let interactor):
+            newState.isLoading = false
+            newState.allItems = interactor.items
+        }
+        
+        return newState
+    }
+    
+    func reduceInput(action: {{ module_info.name }}InputAction, state: {{ module_info.name }}State, performAction: @escaping ({{ module_info.name }}Action) -> Void, performOutputAction: @escaping ({{ module_info.name }}OutputAction) -> Void) -> {{ module_info.name }}State{
+        var newState = state
+        switch action {
+        case .applyFilters(let filters): newState.filters = filters
+        case .applySearch(let search): newState.searchFilter = search
+        case .applySort(let sorter): newState.sorter = sorter
+        }
+        return newState
+    }
+}

@@ -1,0 +1,29 @@
+//
+//  {{ prefix }}{{ module_info.name }}{{ module_info.file_name }}
+//  {{ module_info.project_name }}
+//
+//  Created by {{ developer.name }} on {{ date }}.
+//  Copyright © {{ year }} {{ developer.company }}. All rights reserved.
+//
+
+import UIKit
+import Amber
+
+enum {{ module_info.name }}Action: AmberAction{
+   case reload, loadComplete({{ module_info.name }}Interactor)
+//    case itemPressed(Int)
+}
+
+enum {{ module_info.name }}InputAction: AmberAction{
+    case applyFilters([{{ module_info.name }}State.Filter])
+    case applySearch({{ module_info.name }}State.Filter?)
+    case applySort({{ module_info.name }}State.Sorter?)
+}
+
+enum {{ module_info.name }}OutputAction: AmberAction{
+    case itemPicked({{ module_info.name }}Model)
+}
+
+enum {{ module_info.name }}Transition: AmberTransition{
+//    case <#case#>
+}

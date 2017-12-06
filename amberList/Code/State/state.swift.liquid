@@ -1,0 +1,39 @@
+//
+//  {{ module_info.name }}{{ module_info.file_name }}
+//  {{ module_info.project_name }}
+//
+//  Created by {{ developer.name }} on {{ date }}.
+//  Copyright © {{ year }} {{ developer.company }}. All rights reserved.
+//
+
+import Foundation
+import Amber
+
+struct {{ module_info.name }}State: AmberState {
+    //Верните true, если первый объект должен идти раньше второго
+    typealias Sorter = ({{ module_info.name }}Model, {{ module_info.name }}Model) -> Bool
+    //Верните true, если объект должен попасть в массив для отображения
+    typealias Filter = ({{ module_info.name }}Model) -> Bool
+
+    var description: String { return "\(allItems.count) -(filtered)-> \(itemsToDisplay.count)" }
+
+    var allItems: [{{ module_info.name }}Model] = []
+    
+    var filters = [Filter]()
+    var searchFilter: Filter?
+    var sorter: Sorter?
+    
+    var itemsToDisplay: [{{ module_info.name }}Model]{
+        var items = allItems
+        for filter in filters{
+            items = items.filter(filter)
+        }
+        if let search = searchFilter { items = items.filter(search) }
+        if let sorter = sorter { items = items.sorted(by: sorter) }
+        return items
+    }
+    
+    var isLoading = false
+    
+    init(data: Void) { }
+}

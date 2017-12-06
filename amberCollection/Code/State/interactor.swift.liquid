@@ -1,0 +1,23 @@
+//
+//  {{ module_info.name }}{{ module_info.file_name }}
+//  {{ module_info.project_name }}
+//
+//  Created by {{ developer.name }} on {{ date }}.
+//  Copyright © {{ year }} {{ developer.company }}. All rights reserved.
+//
+
+import Foundation
+import Magics
+
+class {{ module_info.name }}Interactor: NSObject, MagicsInteractor, MagicsModel{
+    var relativeURL: String { return "/{{ module_info.name }}" }
+    
+    var items: [{{ module_info.name }}Model] = []
+    
+    override required init() { }
+    
+    func process(json: MagicsJSON, response: URLResponse?, api: MagicsAPI) {
+        items = api.arrayFrom(json: json["data"])
+    }
+
+}
