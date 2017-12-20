@@ -9,6 +9,11 @@
 import Foundation
 import Amber
 
+enum {{ module_info.name }}Action: AmberAction{
+   case reload, loadComplete({{ module_info.name }}Interactor)
+//    case itemPressed(Int)
+}
+
 class {{ module_info.name }}Reducer: AmberReducer{
     
     func initialize(state: {{ module_info.name }}State, performAction: @escaping ({{ module_info.name }}Action) -> Void, performOutputAction: @escaping ({{ module_info.name }}OutputAction) -> Void){
@@ -39,3 +44,12 @@ class {{ module_info.name }}Reducer: AmberReducer{
         return newState
     }
 }
+
+/*
+extension {{ module_info.name }}Action: MagicsInteractable{
+    var interaction: MagicsPerformable? {
+        if case .loadComplete(let i) = self { return MagicsInteraction(interactor: i) }
+        return nil
+    }
+}
+*/

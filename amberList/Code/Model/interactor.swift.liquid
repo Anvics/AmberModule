@@ -19,5 +19,8 @@ class {{ module_info.name }}Interactor: NSObject, MagicsInteractor, MagicsModel{
     func process(json: MagicsJSON, response: URLResponse?, api: MagicsAPI) {
         items = api.arrayFrom(json: json["data"])
     }
+}
 
+extension {{ module_info.name }}Interactor{
+    override var description: String{ return "items: \(items)" }
 }

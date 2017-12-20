@@ -18,7 +18,7 @@ final class {{ module_info.name }}Controller: UIViewController, AmberController 
 
     let store = AmberStore(reducer: {{ module_info.name }}Reducer(), router: {{ module_info.name }}Router())
 
-    static let storyboardFile = "Main"
+    static let storyboardFile = "{{ module_info.name }}"
     static let storyboardID = "{{ module_info.name }}Controller"
 
     //MARK: - IBOutlets

@@ -1,0 +1,51 @@
+//
+//  {{ module_info.name }}{{ module_info.file_name }}
+//  {{ module_info.project_name }}
+//
+//  Created by {{ developer.name }} on {{ date }}.
+//  Copyright © {{ year }} {{ developer.company }}. All rights reserved.
+//
+
+import Foundation
+import Magics
+
+class {{ module_info.name }}Model: NSObject, MagicsModel {
+    var id = 0
+    var title = ""
+    
+    override required init() { }
+
+    func update(key: String?, json: MagicsJSON, api: MagicsAPI) {
+	
+    }
+}
+
+//MARK: - Filters
+extension {{ module_info.name }}Model{
+    /// Фильтруем все модели, не содержащие в title значение searchString
+    static func searchFilter(searchString: String) -> ({{ module_info.name }}Model) -> Bool{
+        return { $0.title.contains(searchString) }
+    }
+}
+
+//MARK: - Sorters
+extension {{ module_info.name }}Model{
+    /// Сортировка по id. Модели с меньшим id будут идти раньше
+    static func idSorter() -> ({{ module_info.name }}Model, {{ module_info.name }}Model) -> Bool{
+        return { $0.id < $1.id }
+    }
+}
+
+
+extension {{ module_info.name }}Model{
+    static func ==(lhs: {{ module_info.name }}Model, rhs: {{ module_info.name }}Model) -> Bool{
+        return lhs.id == rhs.id
+    }
+}
+
+extension {{ module_info.name }}Model{
+    override var description: String { return "\(id): \(title)" }
+}
+
+
+

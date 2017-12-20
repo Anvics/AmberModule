@@ -9,13 +9,20 @@ license: "MIT"
 
 code_files:
 
+# State files
+- {name: Model/Model.swift, path: Code/Model/model.swift.liquid}
+- {name: Model/Interactor.swift, path: Code/Model/interactor.swift.liquid}
+
+# View files
+- {name: View/Cell.swift, path: Code/View/cell.swift.liquid}
+- {name: View/Cell.xib, path: Code/View/cell.xib.liquid}
+- {name: View/.storyboard, path: Code/View/SB.storyboard.liquid}
+
 # State layer
-- {name: Model.swift, path: Code/State/model.swift.liquid}
-- {name: Interactor.swift, path: Code/State/interactor.swift.liquid}
 - {name: State.swift, path: Code/State/state.swift.liquid}
 
 # Actions And Transitions layer
-- {name: Events.swift, path: Code/Events/events.swift.liquid}
+- {name: InputOutput.swift, path: Code/Events/events.swift.liquid}
 
 # Reducer layer
 - {name: Reducer.swift, path: Code/Reducer/reducer.swift.liquid}
@@ -24,7 +31,6 @@ code_files:
 - {name: Router.swift, path: Code/Router/router.swift.liquid}
 
 # View layer
-- {name: CollectionViewCell.swift, path: Code/View/collectionViewCell.swift.liquid}
 - {name: Controller.swift, path: Code/View/controller.swift.liquid}
 
 # Animation layer

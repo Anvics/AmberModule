@@ -1,0 +1,22 @@
+//
+//  {{ module_info.name }}{{ module_info.file_name }}
+//  {{ module_info.project_name }}
+//
+//  Created by {{ developer.name }} on {{ date }}.
+//  Copyright © {{ year }} {{ developer.company }}. All rights reserved.
+//
+
+import UIKit
+import Bond
+
+class {{ module_info.name }}Cell: UIView {
+
+    @IBOutlet weak var titleLabel: UILabel!
+
+    static func loadFromNib() -> {{ module_info.name }}Cell {
+        let nibName = "{{ module_info.name }}Cell"
+        let nib = UINib(nibName: nibName, bundle: nil)
+        return nib.instantiate(withOwner: self, options: nil).first as! {{ module_info.name }}Cell
+    }
+
+}

@@ -10,18 +10,16 @@ import Foundation
 import Amber
 
 struct {{ module_info.name }}State: AmberState {
-    //Верните true, если первый объект должен идти раньше второго
     typealias Sorter = ({{ module_info.name }}Model, {{ module_info.name }}Model) -> Bool
-    //Верните true, если объект должен попасть в массив для отображения
     typealias Filter = ({{ module_info.name }}Model) -> Bool
 
-    var description: String { return "\(allItems.count) -(filtered)-> \(itemsToDisplay.count)" }
+    var description: String { return "\(allItems.count) -(filtered & sorted)-> \(itemsToDisplay.count)" }
 
     var allItems: [{{ module_info.name }}Model] = []
     
     var filters = [Filter]()
-    var searchFilter: Filter?
-    var sorter: Sorter?
+    var searchFilter: Filter?// = {{ module_info.name }}Model.searchFilter(searchString: "Пре")
+    var sorter: Sorter?// = {{ module_info.name }}Model.idSorter()
     
     var itemsToDisplay: [{{ module_info.name }}Model]{
         var items = allItems

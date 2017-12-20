@@ -9,11 +9,14 @@ license: "MIT"
 
 code_files:
 
+# View files
+- {name: View/.storyboard, path: Code/View/SB.storyboard.liquid}
+
 # State layer
 - {name: State.swift, path: Code/State/state.swift.liquid}
 
 # Actions And Transitions layer
-- {name: Events.swift, path: Code/Events/events.swift.liquid}
+- {name: InputOutput.swift, path: Code/Events/events.swift.liquid}
 
 # Reducer layer
 - {name: Reducer.swift, path: Code/Reducer/reducer.swift.liquid}

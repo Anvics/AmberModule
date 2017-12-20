@@ -9,6 +9,7 @@
 import UIKit
 import Bond
 import Amber
+import CollectionKit
 //import Animatics
 //import AnimaticsBond
 
@@ -18,20 +19,21 @@ final class {{ module_info.name }}Controller: UIViewController, AmberController 
 
     let store = AmberStore(reducer: {{ module_info.name }}Reducer(), router: {{ module_info.name }}Router())
 
-    static let storyboardFile = "Main"
+    static let storyboardFile = "{{ module_info.name }}"
     static let storyboardID = "{{ module_info.name }}Controller"
 
+    private let dataProvider = ArrayDataProvider<{{ module_info.name }}Model>(data: [])
+
     //MARK: - IBOutlets
-    @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var noItemsLabel: UILabel!
-    @IBOutlet weak var loadingView: UIView!
+    @IBOutlet weak var collectionView: CollectionView!
+
     
     //MARK: - Life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
+        setupCollectionView()
         bind()
-        bindTableView()
     }
 
     //MARK: - IBActions
@@ -41,31 +43,36 @@ final class {{ module_info.name }}Controller: UIViewController, AmberController 
 //MARK: - Bindings
 extension {{ module_info.name }}Controller{
     func bind(){
-        
-    }
-    
-    func bindTableView(){
-        state.map { $0.itemsToDisplay }
+        _ = state.map { $0.itemsToDisplay }
             .distinct { $0 != $1 }
-            .bind(to: tableView) { [unowned self] items, indexPath, tableView in
-                let cell = tableView.dequeueReusableCell(withIdentifier: "{{ module_info.name }}Cell") as! {{ module_info.name }}TableViewCell
-                let item = items[indexPath.row]
-                
-//                cell.reactive.bag.dispose()
-//                cell.button.reactive.tap.replace(with: .itemPressed(indexPath.row)).bind(to: self.action).dispose(in: cell.reactive.bag)
-                
-                return cell
-        }
-        
-        state.map { $0.itemsToDisplay.count == 0 }.bind(to: tableView.reactive.isHidden)
-        state.map { $0.isLoading || $0.itemsToDisplay.count != 0 }.bind(to: noItemsLabel.reactive.isHidden)
-        state.map { !$0.isLoading || $0.itemsToDisplay.count != 0 }.bind(to: loadingView.reactive.isHidden)
+            .observeNext { [unowned self] in
+                self.dataProvider.data = $0
+            }        
     }
 }
 
-extension {{ module_info.name }}Controller: UITableViewDelegate{
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
-        store.performOutput(action: .itemPicked(store.currentState().itemsToDisplay[indexPath.row]))
+//MARK: - Setup CollectionView
+extension {{ module_info.name }}Controller{
+    func setupCollectionView(){
+        collectionView.contentInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
+        let provider = CollectionProvider(
+            dataProvider: dataProvider,
+            viewGenerator: { _, _ in {{ module_info.name }}Cell.loadFromNib() },
+            viewUpdater: { (view: {{ module_info.name }}Cell, data, index) in
+                view.titleLabel.text = data.title
+                view.clipsToBounds = false
+            },
+            tapHandler: { [unowned self] view, index, dataProvider in
+                self.perform(transitions: .show(dataProvider.data(at: index)))
+            }
+        )
+        
+        provider.presenter = WobblePresenter()
+        provider.layout = FlowLayout(lineSpacing: 30)
+        provider.sizeProvider = { (index, model, size) -> CGSize in
+            return CGSize(width: size.width, height: 74)
+        }
+        collectionView.provider = provider
     }
 }
 

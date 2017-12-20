@@ -9,6 +9,10 @@
 import Foundation
 import Amber
 
+enum {{ module_info.name }}Action: AmberAction{
+//    case <#case#>
+}
+
 class {{ module_info.name }}Reducer: AmberReducer{
     
     func initialize(state: {{ module_info.name }}State, performAction: @escaping ({{ module_info.name }}Action) -> Void, performOutputAction: @escaping ({{ module_info.name }}OutputAction) -> Void){

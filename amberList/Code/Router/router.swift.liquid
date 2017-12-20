@@ -9,10 +9,14 @@
 import Foundation
 import Amber
 
+enum {{ module_info.name }}Transition: AmberTransition{
+    case show({{ module_info.name }}Model)
+}
+
 class {{ module_info.name }}Router: AmberRouter{
      func perform(transition: {{ module_info.name }}Transition, route: AmberRoutePerformer, reducer: {{ module_info.name }}Reducer, performAction: @escaping ({{ module_info.name }}Action) -> Void){
-//        switch transition {
-//        case <#case#>: <#code#>
-//        }
+        switch transition {
+        case .show(let model): break
+        }
     }
 }
